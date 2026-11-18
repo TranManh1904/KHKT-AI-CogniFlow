@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Chủ Đề Đa Lĩnh Vực - CogniFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cogniflow.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    {% include 'admin/sidebar.html' %}
+
+    <main class="admin-main">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <h1 style="font-size: 24px; margin: 0 0 5px 0; color: #fff;">Quản Lý Chủ Đề Đa Lĩnh Vực</h1>
+                <p style="color: #888; font-size: 14px; margin: 0;">Quản lý cây chủ đề, phân cấp chủ đề cha và chủ đề con cho mọi lĩnh vực.</p>
+            </div>
+            <button onclick="moModalThem()" style="background: #007bff; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                + Thêm chủ đề mới
+            </button>
+        </div>
+
+        <!-- Thanh Tìm kiếm & Lọc số dòng hiển thị -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 15px; border-radius: 8px; border: 1px solid #2d2d2d;">
+            <div style="display: flex; align-items: center; gap: 10px; width: 350px;">
+                <input type="text" id="searchInput" class="form-input" style="margin-top:0;" placeholder="🔍 Tìm kiếm theo tên chủ đề, mã, lĩnh vực...">
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #aaa; font-size: 13px;">
+                <span>Hiển thị:</span>
+                <select id="pageSizeSelect" class="form-input" style="width: 80px; margin-top: 0; padding: 6px;" onchange="changePageSize()">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span>dòng</span>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60px; text-align: center;">STT</th>
+                        <th>Tên chủ đề</th>
+                        <th>Mã chủ đề</th>
+                        <th>Lĩnh vực</th>
+                        <th>Thuộc chủ đề cha</th>
+                        <th>Mô tả</th>
+                        <th style="text-align: center; width: 90px;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="chuDeTableBody">
+                    <!-- Load bằng JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Thanh phân trang -->
+        <div class="toolbar">
+            <div id="tableInfo" style="font-size: 13px; color: #888;">Đang hiển thị...</div>
+            <div class="pagination" id="paginationContainer">
+                <!-- Nút phân trang load bằng JS -->
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal Thêm Chủ Đề -->
+<div id="chuDeModal" class="modal">
+    <div style="background:#1e1e1e; padding:25px; border-radius:8px; width:450px; color:#fff; border:1px solid #333;">
+        <h3 style="margin-top:0;">Thêm Chủ Đề / Chủ Đề Con</h3>
+        <form id="chuDeForm">
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 13px; color: #aaa;">Chủ đề cấp trên (Bỏ trống nếu là chủ đề gốc):</label>
+                <select id="selectChuDeCha" class="form-input">
+                    <option value="">-- Là chủ đề gốc (Cấp cao nhất) --</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 13px; color: #aaa;">Tên chủ đề:</label>
+                <input type="text" id="tenChuDe" class="form-input" placeholder="Ví dụ: Hướng dẫn giải" required>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 13px; color: #aaa;">Mã chủ đề (Tự động sinh):</label>
+                <input type="text" id="maChuDe" class="form-input" style="background: #151515; color: #888; cursor: not-allowed;" readonly required>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 13px; color: #aaa;">Lĩnh vực:</label>
+                <input type="text" id="linhVuc" class="form-input" placeholder="Ví dụ: Học tập, Môi trường, Xã hội...">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 13px; color: #aaa;">Mô tả:</label>
+                <textarea id="moTa" class="form-input" rows="2"></textarea>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button type="button" onclick="dongModal()" style="padding:8px 15px; background:#555; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+                <button type="submit" style="padding:8px 15px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Lưu chủ đề</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Nhúng file JS riêng biệt theo đúng yêu cầu -->
+<script src="{{ url_for('static', filename='js/chude.js') }}"></script>
+</body>
+</html>

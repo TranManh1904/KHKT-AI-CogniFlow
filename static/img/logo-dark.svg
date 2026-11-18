@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- CogniFlow mark — for dark backgrounds -->
+  <!-- Orbit ring with a flow gap (upper right) -->
+  <path d="M18.7 6A10.4 10.4 0 1 0 25.8 12.4" stroke="#f4f4f5" stroke-width="3" stroke-linecap="round"/>
+  <!-- Idea core -->
+  <circle cx="16" cy="16" r="3.2" fill="#3080ff"/>
+  <!-- Orbiting idea in the gap -->
+  <circle cx="23.1" cy="8.5" r="2.1" fill="#3080ff"/>
+</svg>

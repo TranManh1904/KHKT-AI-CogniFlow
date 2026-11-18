@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Bộ Lọc Yêu Cầu - CogniFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cogniflow.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    {% include 'admin/sidebar.html' %}
+
+    <main class="admin-main">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+                <h1 style="font-size: 24px; margin: 0 0 5px 0; color: #fff;">Quản Lý Bộ Lọc Yêu Cầu</h1>
+                <p style="color: #888; font-size: 14px; margin: 0;">Quản lý tiêu chí lọc nội dung gắn kết trực tiếp với hệ thống chủ đề đa lĩnh vực.</p>
+            </div>
+            <button onclick="moModalThem()" style="background: #007bff; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                + Thêm bộ lọc mới
+            </button>
+        </div>
+
+        <!-- Thanh Tìm kiếm & Hiển thị số dòng -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #1e1e1e; padding: 15px; border-radius: 8px; border: 1px solid #2d2d2d;">
+            <div style="width: 350px;">
+                <input type="text" id="searchInput" class="form-input" style="margin-top:0;" placeholder="🔍 Tìm kiếm theo tên bộ lọc, chủ đề, mục đích...">
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px; color: #aaa; font-size: 13px;">
+                <span>Hiển thị:</span>
+                <select id="pageSizeSelect" class="form-input" style="width: 80px; margin-top: 0; padding: 6px;" onchange="changePageSize()">
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span>dòng</span>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px; text-align: center;">STT</th>
+                        <th>Tên bộ lọc</th>
+                        <th>Chủ đề liên kết</th>
+                        <th>Đối tượng áp dụng</th>
+                        <th>Mục đích sử dụng</th>
+                        <th style="text-align: center; width: 120px;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="boLocTableBody">
+                    <!-- Load bằng JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="toolbar">
+            <div id="tableInfo" style="font-size: 13px; color: #888;">Đang hiển thị...</div>
+            <div class="pagination" id="paginationContainer"></div>
+        </div>
+    </main>
+</div>
+
+<!-- Modal Thêm / Sửa Bộ Lọc -->
+<div id="boLocModal" class="modal">
+    <div style="background:#1e1e1e; padding:25px; border-radius:8px; width:450px; color:#fff; border:1px solid #333;">
+        <h3 id="modalTitle" style="margin-top:0;">Thêm Bộ Lọc Yêu Cầu Mới</h3>
+        <form id="boLocForm">
+            <input type="hidden" id="boLocId">
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: #aaa;">Tên bộ lọc:</label>
+                <input type="text" id="tenBoLoc" class="form-input" placeholder="Ví dụ: Bộ lọc tài liệu môi trường" required>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: #aaa;">Thuộc chủ đề:</label>
+                <select id="selectChuDe" class="form-input">
+                    <option value="">-- Chọn chủ đề liên kết --</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: #aaa;">Đối tượng áp dụng:</label>
+                <select id="doiTuong" class="form-input">
+                    <option value="Học sinh">Học sinh</option>
+                    <option value="Người dùng">Người dùng</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Tất cả">Tất cả</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 12px; color: #aaa;">Mục đích sử dụng:</label>
+                <input type="text" id="mucDich" class="form-input" placeholder="Ví dụ: Tài liệu tham khảo, Hướng dẫn giải...">
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button type="button" onclick="dongModal()" style="padding:8px 15px; background:#555; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+                <button type="submit" style="padding:8px 15px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Lưu bộ lọc</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/boloc.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!-- Thư viện CSS chung -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cogniflow.css') }}">
+
+<aside class="admin-sidebar" style="width: 260px; background-color: #1a1a1a; border-right: 1px solid #2d2d2d; display: flex; flex-direction: column; padding: 20px; height: 100vh; box-sizing: border-box; flex-shrink: 0;">
+    <div style="font-size: 18px; font-weight: bold; color: #fff; margin-bottom: 25px; display: flex; align-items: center; gap: 10px;">
+        <span>🛡️</span> CogniFlow Admin
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 8px; flex: 1;">
+        <!-- Nút Về Trang Chủ -->
+        <a href="/trang-chu" style="padding: 10px 15px; border-radius: 6px; color: #ccc; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: 0.2s;" onmouseover="this.style.background='#2d2d2d';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#ccc'">
+            Về Trang Chủ
+        </a>
+
+        <!-- Nút Quản Lý Tài Khoản (Tự động sáng nếu đang ở URL /admin/quan-ly-tai-khoan) -->
+        <a href="/admin/quan-ly-tai-khoan" style="padding: 10px 15px; border-radius: 6px; {% if request.path == '/admin/quan-ly-tai-khoan' %}background: #007bff; color: #fff; font-weight: 500;{% else %}color: #ccc;{% endif %} text-decoration: none; display: flex; align-items: center; gap: 10px;">
+            Quản Lý Tài Khoản
+        </a>
+
+        <!-- Nút Quản Lý Hệ Thống AI (Tự động sáng nếu đang ở URL /admin/quan-ly-ai) -->
+        <a href="/admin/quan-ly-ai" style="padding: 10px 15px; border-radius: 6px; {% if request.path == '/admin/quan-ly-ai' %}background: #007bff; color: #fff; font-weight: 500;{% else %}color: #ccc;{% endif %} text-decoration: none; display: flex; align-items: center; gap: 10px;">
+            Quản Lý Hệ Thống AI
+        </a>
+
+        <a href="/admin/quan-ly-chu-de" style="padding: 10px 15px; border-radius: 6px; {% if request.path == '/admin/quan-ly-chu-de' %}background: #007bff; color: #fff; font-weight: 500;{% else %}color: #ccc;{% endif %} text-decoration: none; display: flex; align-items: center; gap: 10px;">
+            Quản Lý Chủ Đề
+        </a>
+        <a href="/admin/quan-ly-bo-loc" style="padding: 10px 15px; border-radius: 6px; {% if request.path == '/admin/quan-ly-bo-loc' %}background: #007bff; color: #fff; font-weight: 500;{% else %}color: #ccc;{% endif %} text-decoration: none; display: flex; align-items: center; gap: 10px;">
+            Quản Lý Bộ Lọc Yêu Cầu
+        </a>
+    </div>
+
+    <div style="border-top: 1px solid #2d2d2d; padding-top: 15px;">
+        <a href="/dang-xuat" style="padding: 10px 15px; border-radius: 6px; color: #ff4d4d; text-decoration: none; display: flex; align-items: center; gap: 10px;" onmouseover="this.style.background='rgba(255,77,77,0.1)'" onmouseout="this.style.background='transparent'">
+            Đăng Xuất
+        </a>
+    </div>
+</aside>

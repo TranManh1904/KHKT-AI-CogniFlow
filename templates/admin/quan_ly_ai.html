@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Hệ Thống AI - CogniFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cogniflow.css') }}">
+</head>
+<body>
+
+<div class="admin-layout">
+    {% include 'admin/sidebar.html' %}
+
+    <main class="admin-main">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h1 style="font-size: 24px; margin: 0 0 5px 0; color: #fff;">Quản Lý Cấu Hình Hệ Thống AI</h1>
+                <p style="color: #888; font-size: 14px; margin: 0;">Quản lý kết nối API, mô hình LLM và thiết lập bộ lọc nội dung nhạy cảm.</p>
+            </div>
+            <button onclick="moModalThem()" style="background: #007bff; color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                + Thêm cấu hình AI mới
+            </button>
+        </div>
+
+        <!-- Khung cài đặt bộ lọc nội dung nhạy cảm & Prompt -->
+        <div style="background: #1e1e1e; border: 1px solid #2d2d2d; border-radius: 8px; padding: 20px; margin-bottom: 25px;">
+            <h3 style="margin-top: 0; color: #007bff; font-size: 16px;">🛡️ Cấu hình bộ lọc & Yêu cầu trả lời của AI</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                <div>
+                    <label style="font-size: 13px; color: #bbb;">Chặn từ khóa & Thông tin cá nhân nhạy cảm:</label>
+                    <textarea class="form-input" rows="3" placeholder="Nhập các từ khóa cần chặn, ví dụ: số điện thoại, căn cước, mật khẩu...">CCCD, số điện thoại, mật khẩu, thông tin cá nhân</textarea>
+                </div>
+                <div>
+                    <label style="font-size: 13px; color: #bbb;">Cấu hình System Prompt (Yêu cầu AI trả lời):</label>
+                    <textarea class="form-input" rows="3" placeholder="Quy định cách AI giao tiếp...">Bạn là trợ lý học tập thông minh của hệ thống CogniFlow, hãy trả lời ngắn gọn, chuẩn xác và lịch sự.</textarea>
+                </div>
+            </div>
+            <div style="margin-top: 15px; text-align: right;">
+                <button onclick="alert('Đã lưu cấu hình bộ lọc thành công!')" style="background: #28a745; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 500;">Lưu thiết lập bộ lọc</button>
+            </div>
+        </div>
+
+        <!-- Thanh tìm kiếm -->
+        <div style="margin-bottom: 20px;">
+            <input type="text" id="searchInput" class="input-search" style="width: 350px;" placeholder="🔍 Tìm kiếm theo tên hiển thị, nhà cung cấp, model...">
+        </div>
+
+        <!-- Bảng danh sách AI -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Mã / Tên hiển thị</th>
+                        <th>Nhà cung cấp</th>
+                        <th>Model</th>
+                        <th>Token tối đa</th>
+                        <th>Trạng thái</th>
+                        <th>Người tạo</th>
+                        <th style="text-align: center;">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="aiTableBody">
+                    <!-- Load bằng JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- Modal Thêm Cấu Hình AI -->
+<div id="aiModal" class="modal">
+    <div style="background:#1e1e1e; padding:25px; border-radius:8px; width:450px; color:#fff; border:1px solid #333;">
+        <h3 style="margin-top:0;">Thêm Cấu Hình Kết Nối API AI</h3>
+        <form id="aiForm">
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Mã cấu hình (Ví dụ: gemini_pro_01):</label>
+                <input type="text" id="maCauHinh" class="form-input" required>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Nhà cung cấp:</label>
+                <select id="nhaCungCap" class="form-input">
+                    <option value="gemini">Gemini (Google)</option>
+                    <option value="openai">OpenAI (ChatGPT)</option>
+                    <option value="claude">Claude (Anthropic)</option>
+                    <option value="other">Khác</option>
+                </select>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Tên hiển thị:</label>
+                <input type="text" id="tenHienThi" class="form-input" placeholder="Ví dụ: Gemini 1.5 Flash" required>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Địa chỉ API Endpoint (Để trống nếu dùng mặc định):</label>
+                <input type="text" id="diaChiApi" class="form-input" placeholder="https://api.openai.com/v1...">
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">API Key (Được mã hóa an toàn):</label>
+                <input type="password" id="khoaApi" class="form-input" placeholder="Nhập API Key..." required>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Tên Model:</label>
+                <input type="text" id="tenModel" class="form-input" value="gemini-1.5-flash" required>
+            </div>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 13px; color: #aaa;">Số Token tối đa:</label>
+                <input type="number" id="soToken" class="form-input" value="1000">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-size: 13px; color: #aaa;">Trạng thái sử dụng:</label>
+                <select id="dangSuDung" class="form-input">
+                    <option value="1">Đặt làm AI chính đang sử dụng</option>
+                    <option value="0">Lưu nháp / Không kích hoạt</option>
+                </select>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:10px;">
+                <button type="button" onclick="dongModal()" style="padding:8px 15px; background:#555; color:#fff; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+                <button type="submit" style="padding:8px 15px; background:#007bff; color:#fff; border:none; border-radius:4px; cursor:pointer;">Lưu cấu hình</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='js/ql_ai.js') }}"></script>
+</body>
+</html>
